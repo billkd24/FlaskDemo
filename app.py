@@ -44,6 +44,19 @@ def index ():
         entries = Task.query.order_by(Task.date_added).all()
         return render_template ('index.html', entries = entries)
 
+
+
+@app.route('/delete/<int:id>')
+def delete(id):
+    task_to_remove = Task.query.get_or_404(id)
+
+    try:
+        db.session.delete(task_to_remove)
+        db.session.commit()
+        return redirect('/')
+    except:
+        return "Error Deleting the Task"    
+
 if __name__ == "__main__":
     app.run(degub=True)
 
